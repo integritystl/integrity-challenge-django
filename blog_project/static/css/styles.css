@@ -1,0 +1,47 @@
+/* static/css/style.css */
+
+/* General styling */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Post cards */
+.card-title a {
+    color: #333;
+    transition: color 0.2s;
+}
+
+.card-title a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Images */
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+}
+
+.img-fluid.rounded {
+    max-height: 500px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Comments */
+.comment-form textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* Pagination */
+.pagination {
+    justify-content: center;
+    margin-top: 2rem;
+}

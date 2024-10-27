@@ -1,0 +1,26 @@
+{# templates/blog/test_auth.html #}
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Authentication Test</h2>
+    </div>
+    <div class="card-body">
+        <h3>User Information:</h3>
+        <ul>
+            <li>Username: {{ user.username }}</li>
+            <li>Is authenticated: {{ user.is_authenticated }}</li>
+            <li>Is staff: {{ user.is_staff }}</li>
+            <li>Is superuser: {{ user.is_superuser }}</li>
+        </ul>
+        
+        <h3>Session Information:</h3>
+        <ul>
+            {% for key, value in session %}
+                <li>{{ key }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
