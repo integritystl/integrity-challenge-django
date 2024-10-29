@@ -1,24 +1,24 @@
-# blog/models.py
+# blog_project/blog/models/Post.py
 
 from django.db import models
-from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
+from . import AbstractPost
 
 
-class Post(models.Model):
+class Post(AbstractPost):
     """
     Represents a blog post
 
     Attributes
     ----------
     title : CharField
-        The title of the blog post. Limited to 200 characters.
+        The title of the post. Limited to 200 characters.
     slug : SluField
         A unique identifier for the post. Limited to 200 characters.
         If not provided, It will be generated based on the title.
     author : ForeignKey
-        Person that wrote the blog post. Linked to a User model.
+        Person that wrote the post. Linked to a User model.
     content : models.TextField
         What is written in the post.
     image : ImageField
@@ -35,29 +35,11 @@ class Post(models.Model):
     """
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
-    content = models.TextField()
     image = models.ImageField(upload_to='posts/%Y/%m/%d/', blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=[
         ('draft', 'Draft'),
         ('published', 'Published')
     ], default='draft')
-
-    class Meta:
-        """
-        Attributes
-        ----------
-        ordering : List[str]
-            Orders the posts by created_on attribute.
-        indexes : List[Index]
-            Creates an index based on the created_on attribute.
-        """
-        ordering = ['-created_on']
-        indexes = [
-            models.Index(fields=['-created_on']),
-        ]
 
     def __str__(self) -> str:
         """
