@@ -20,7 +20,7 @@ class AbstractPost(models.Model):
         The date and time the post was last updated. Automatically created upon save.
 
     """
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_related')
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
