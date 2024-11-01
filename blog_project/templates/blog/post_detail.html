@@ -29,6 +29,7 @@
             <section class="mb-5">
                 {{ post.content|linebreaks }}
             </section>
+            {% include 'blog/comments/comments.html' with post=post %}
         </article>
 
     </div>
