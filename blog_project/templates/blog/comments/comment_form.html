@@ -1,0 +1,49 @@
+{# templates/blog/comments/comment_form.html #}
+
+<section>
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'blog:add_comment' post.id %}" style="padding: 1em">
+        {% csrf_token %}
+        <div class="input-group input-group-sm mb-3">
+            <input
+                    id="post-comment-input-{{ post.slug }}"
+                    aria-describedby="post-comment-btn-{{ post.slug }}"
+                    type="text"
+                    name="content"
+                    class="form-control"
+                    aria-label="post-comment"
+                    oninput="toggleButtonState('{{ post.slug }}')"
+            >
+            <button
+                    id="post-comment-btn-{{ post.slug }}"
+                    type="submit"
+                    class="btn btn-success"
+                    disabled
+            >
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </form>
+    {% else %}
+    <p>Please <a href="{% url 'login' %}">login</a> to leave a comment.</p>
+    {% endif %}
+</section>
+<script>
+    function toggleButtonState(slug) {
+        const input = document.getElementById("post-comment-input-" + slug)
+        const button = document.getElementById("post-comment-btn-" + slug)
+        button.disabled = !input.value.trim().length
+    }
+    /*
+     onclick="handlePostComment('{{ post.slug }}')"
+     onkeypress="handlePostCommentOnEnter(event, '{{ post.slug }}')"
+     function handlePostComment(slug) {
+        document.getElementById("post-comment-btn-" + slug).click()
+    }
+    function handlePostCommentOnEnter(event, slug) {
+        if (event.key === "Enter" || event.keyCode === 13) {
+           document.getElementById("post-comment-btn-" + slug).click()
+        }
+    }
+    */
+</script>
