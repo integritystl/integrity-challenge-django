@@ -1,4 +1,4 @@
-# blog_project/blog/views/Post.py
+# blog_project/blog/views/post_views.py
 
 from __future__ import annotations
 from typing import TYPE_CHECKING
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from django.http.response import HttpResponse, HttpResponseRedirect
     from django.core.handlers.wsgi import WSGIRequest
     from django.db.models.query import QuerySet
-    from django.forms.widgets import PostForm
+    from django.forms import ModelForm
 
 
 class PostListView(ListView):
@@ -86,14 +86,14 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'blog/post_form.html'
     fields = ['title', 'content', 'image', 'status']
 
-    def form_valid(self, form: PostForm) -> HttpResponseRedirect:
+    def form_valid(self, form: ModelForm) -> HttpResponseRedirect:
         """
         Validates form.
         Assigns the current user as the post author before form validation.
 
         Parameters
         ----------
-        form : PostForm
+        form : ModelForm
             The form instance for creating a post.
 
         Returns
