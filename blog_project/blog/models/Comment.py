@@ -20,4 +20,7 @@ class Comment(AbstractPost):
         The date and time the post was last updated. Automatically created upon save.
     post :
     """
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='blog_post')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+
+    def __str__(self):
+        return f'Comment by {self.author} on {self.post.title} at {self.created_on}'
