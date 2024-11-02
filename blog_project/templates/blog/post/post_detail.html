@@ -8,22 +8,31 @@
     <div class="col-lg-8">
         <article>
             <header class="mb-4">
-                <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                <!--TITLE AND OPTIONS-->
+                <div class="row align-items-center">
+                    <!--USERNAME-->
+                    <div class="col-auto">
+                        <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                    </div>
+                    <!--FREE SPACE DIV-->
+                    <div class="col"></div>
+                    <!--OPTIONS-->
+                    <div class="col-auto d-flex gap-2">
+                        {% include 'blog/post/post_options.html' with post=post %}
+                    </div>
+                </div>
+
+                <!--CREATED DATE-->
                 <div class="text-muted fst-italic mb-2">
                     Posted on {{ post.created_on|date:"F d, Y" }} by {{ post.author }}
                 </div>
-                {% if user == post.author %}
-                    <div class="mb-3">
-                        <a href="{% url 'blog:post_update' post.slug %}" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="{% url 'blog:post_delete' post.slug %}" class="btn btn-danger btn-sm">Delete</a>
-                    </div>
-                {% endif %}
+
             </header>
 
             {% if post.image %}
-                <figure class="mb-4">
-                    <img class="img-fluid rounded" src="{{ post.image.url }}" alt="{{ post.title }}">
-                </figure>
+            <figure class="mb-4">
+                <img class="img-fluid rounded" src="{{ post.image.url }}" alt="{{ post.title }}">
+            </figure>
             {% endif %}
 
             <section class="mb-5">
