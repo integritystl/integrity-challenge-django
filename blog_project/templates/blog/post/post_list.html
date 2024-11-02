@@ -22,7 +22,9 @@
                         Posted by {{ post.author }} on {{ post.created_on|date:"F d, Y" }}
                     </p>
                     <p class="card-text">{{ post.content|truncatewords:50 }}</p>
-                    <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary">Read More</a>
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-success rounded-corner">
+                        Read More <i class="fa-solid fa-angles-right"></i>
+                    </a>
                 </div>
                 {% include 'blog/comments/comment_count.html' with post=post %}
             </article>
@@ -73,7 +75,7 @@
         <div class="card">
             <div class="card-header">Quick Actions</div>
             <div class="card-body">
-                <a href="{% url 'blog:post_create' %}" class="btn btn-primary">Create New Post</a>
+                <a href="{% url 'blog:post_create' %}" class="btn btn-success rounded-corner">Create New Post</i></a>
             </div>
         </div>
         {% endif %}
