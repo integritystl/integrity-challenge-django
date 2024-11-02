@@ -6,10 +6,21 @@ from .models import Post, Comment
 from django.core.files.uploadedfile import SimpleUploadedFile
 from .models.Post import Status
 
-
+# POST DATA
 POST_TITLE = 'Test Post'
 POST_CONTENT = 'Test content'
+
+# COMMENT DATA
 COMMENT_CONTENT = 'Test comment'
+
+# USER DATA
+USERNAME = 'testuser'
+PASSWORD = 'testpass123'
+
+# ADMIN USER DATA
+ADMIN_USERNAME = 'admin'
+ADMIN_PASSWORD = 'admin123'
+ADMIN_EMAIL = 'admin@test.com'
 
 
 class BlogTests(TestCase):
@@ -21,13 +32,13 @@ class BlogTests(TestCase):
     def setUp(self):
         # CREATE USERS
         self.user = User.objects.create_user(
-            username='testuser',
-            password='testpass123'
+            username=USERNAME,
+            password=PASSWORD
         )
         self.admin_user = User.objects.create_superuser(
-            username='admin',
-            password='admin123',
-            email='admin@test.com'
+            username=ADMIN_USERNAME,
+            password=ADMIN_PASSWORD,
+            email=ADMIN_EMAIL
         )
 
         # CREATE TEST POST
@@ -66,4 +77,24 @@ class BlogTests(TestCase):
         self.assertEqual(self.comment.post, self.post)
         self.assertEqual(self.post.comments.count(), 1)
 
+    def test_add_comment_authenticated(self):
+        """
+        Test adding a comment as an authenticated user
+        """
+        self.client.login(username=USERNAME, password=PASSWORD)
+        self.client.post(
+            reverse('blog:add_comment', kwargs={'post_id': self.post.id}),
+            {'content': 'New test comment'}
+        )
+        self.assertEqual(self.post.comments.count(), 2)
+
+    def test_add_comment_unauthenticated(self):
+        """
+        Test adding a comment as an unauthenticated user
+        """
+        self.client.post(
+            reverse('blog:add_comment', kwargs={'post_id': self.post.id}),
+            {'content': 'New test comment'}
+        )
+        self.assertEqual(self.post.comments.count(), 1)  # Comment count unchanged
 
