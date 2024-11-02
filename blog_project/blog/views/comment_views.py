@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import Comment, Post
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from django.http.response import JsonResponse
+
 
 if TYPE_CHECKING:
     from django.http.response import HttpResponseRedirect
@@ -50,6 +52,20 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         form.instance.post = Post.objects.get(slug=self.kwargs['slug'])
         return super().form_valid(form)
+
+
+def comment_count(request: WSGIRequest, post_id: int):
+    """
+    Gets the number of comments on a post
+
+    Parameters
+    ----------
+    request : WSGIRequest
+    post_id : int
+    """
+    post = Post.objects.get(id=post_id)
+    count = Comment.objects.filter(post=post).count()
+    return JsonResponse({'comment_count': count})
 
 
 @login_required

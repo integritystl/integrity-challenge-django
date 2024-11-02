@@ -13,5 +13,6 @@ urlpatterns = [
     path('post/<slug:slug>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
 
     # Blog Post Comments
+    path('post/<int:post_id>/comment-count/', views.comment_count, name='comment_count'),
     path('post/<int:post_id>/comment/', views.add_comment, name='add_comment'),
 ]
