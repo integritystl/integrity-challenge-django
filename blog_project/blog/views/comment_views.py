@@ -89,3 +89,23 @@ def add_comment(request: WSGIRequest, post_id: int):
         )
         messages.success(request, 'Your comment has been added.')
         return redirect('blog:post_detail', slug=post.slug)
+
+
+@login_required
+def delete_comment(request: WSGIRequest, comment_id: int):
+    """
+    Deletes a comment from a blog post
+
+    Parameters
+    ----------
+    request : WSGIRequest
+    comment_id : int
+    """
+    comment = get_object_or_404(Comment, id=comment_id)
+    if request.user == comment.author or request.user.is_staff:
+        comment.delete()
+        messages.success(request, 'Comment deleted successfully.')
+        return redirect('blog:post_detail', slug=comment.post.slug)
+    else:
+        messages.error(request, 'You do not have permission to delete this comment.')
+    return redirect('blog:post_detail', slug=comment.post.slug)

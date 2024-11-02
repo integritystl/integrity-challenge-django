@@ -15,4 +15,5 @@ urlpatterns = [
     # Blog Post Comments
     path('post/<int:post_id>/comment-count/', views.comment_count, name='comment_count'),
     path('post/<int:post_id>/comment/', views.add_comment, name='add_comment'),
+    path('comment/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
 ]
