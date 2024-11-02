@@ -165,7 +165,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 # Add this test view
-#@login_required
+@login_required
 def test_auth(request: WSGIRequest) -> HttpResponse:
     """
     Test View to display user authentication details.
