@@ -1,0 +1,37 @@
+{# blog_project/templates/blog/comments/comment_list.html #}
+
+<section>
+    {% for comment in post.comments.all %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <!--USERNAME-->
+                <div class="col-auto">
+                    <h6 class="card-subtitle text-muted">@{{ comment.author }}</h6>
+                </div>
+
+                <!--FREE SPACE DIV-->
+                <div class="col"></div>
+
+                <div class="col-auto d-flex gap-2">
+                    <!--DATE-->
+                    <small class="text-muted align-self-center">
+                        {% now "Y-m-d" as today %}
+                        {% if comment.created_on|date:"Y-m-d" != today %}
+                        {{ comment.created_on|date:"F d, Y" }}
+                        {% else %}
+                        {{ comment.created_on|date:"h:i A" }}
+                        {% endif %}
+                    </small>
+
+                    <!--OPTIONS-->
+                    {% include 'blog/comments/comment_options.html' with comment=comment %}
+                </div>
+            </div>
+            <p>{{ comment.content }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-muted">Be the first to comment!</p>
+    {% endfor %}
+</section>

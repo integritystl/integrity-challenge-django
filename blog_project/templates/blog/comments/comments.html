@@ -1,0 +1,6 @@
+{# blog_project/templates/blog/comments/comments.html #}
+
+<section>
+    {% include 'blog/comments/comment_form.html' with post=post %}
+    {% include 'blog/comments/comment_list.html' with post=post %}
+</section>

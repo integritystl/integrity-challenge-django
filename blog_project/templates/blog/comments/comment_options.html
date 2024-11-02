@@ -1,0 +1,19 @@
+{# templates/blog/post/post_options.html #}
+
+{% if user == comment.author or user.is_staff %}
+<div class="dropdown">
+    <button
+            class="btn btn-light btn-small"
+            type="button"
+            id="dropdownMenuButton-{{ comment.id }}"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+    >
+        ...
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ comment.id }}">
+        <a class="dropdown-item" href="{% url 'blog:delete_comment' comment.id %}">Delete Comment</a>
+    </div>
+</div>
+{% endif %}

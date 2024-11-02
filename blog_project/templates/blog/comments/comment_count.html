@@ -1,0 +1,14 @@
+{# templates/blog/comments/comment_count.html #}
+
+<small id="comment-count-{{ post.id }}" class="m-2"></small>
+<script>
+    window.addEventListener("pageshow", function(event) {
+        fetch(`/post/{{post.id}}/comment-count`)
+            .then(response => response.json())
+            .then(data => {
+                const count = data.comment_count
+                const commentText = count === 1 ? 'Comment' : 'Comments'
+                document.getElementById("comment-count-{{ post.id }}").textContent = `${count} ${commentText}`
+            })
+    });
+</script>
