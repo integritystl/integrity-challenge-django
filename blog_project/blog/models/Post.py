@@ -84,8 +84,7 @@ class Post(AbstractPost):
         """
         Saves the post to the database. Generates a slug if needed.
         """
-        if not self.slug:
-            self.slug = slugify(self.title)
+        self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
