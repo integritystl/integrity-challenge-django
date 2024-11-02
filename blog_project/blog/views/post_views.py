@@ -32,7 +32,7 @@ class PostListView(ListView):
         Number of posts to display per page.
     """
     model = Post
-    template_name = 'blog/post_list.html'
+    template_name = 'blog/post/post_list.html'
     context_object_name = 'posts'
     paginate_by = 10
 
@@ -60,7 +60,7 @@ class PostDetailView(DetailView):
         Path to the template that renders the post details.
     """
     model = Post
-    template_name = 'blog/post_detail.html'
+    template_name = 'blog/post/post_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,7 +81,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         List of fields to display in the post creation form.
     """
     model = Post
-    template_name = 'blog/post_form.html'
+    template_name = 'blog/post/post_form.html'
     fields = ['title', 'content', 'image', 'status']
 
     def form_valid(self, form: ModelForm) -> HttpResponseRedirect:
@@ -117,7 +117,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         List of fields to display in the post creation form.
     """
     model = Post
-    template_name = 'blog/post_form.html'
+    template_name = 'blog/post/post_form.html'
     fields = ['title', 'content', 'image', 'status']
 
     def test_func(self) -> bool:
@@ -146,7 +146,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         URL to redirect upon a successful deletion of a post.
     """
     model = Post
-    template_name = 'blog/post_confirm_delete.html'
+    template_name = 'blog/post/post_confirm_delete.html'
     success_url = reverse_lazy('blog:post_list')
 
     def test_func(self) -> bool:
