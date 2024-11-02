@@ -121,3 +121,17 @@ class BlogTests(TestCase):
             reverse('blog:delete_comment', kwargs={'comment_id': self.comment.id})
         )
         self.assertEqual(self.post.comments.count(), 1)
+
+    def test_comment_ordering(self):
+        """
+        Test that comments are ordered correctly
+        """
+        new_comment = 'New comment'
+        Comment.objects.create(
+            post=self.post,
+            author=self.user,
+            content=new_comment
+        )
+        comments = self.post.comments.all()
+        self.assertEqual(comments[0].content, new_comment)  # Newest first
+        self.assertEqual(comments[1].content, COMMENT_CONTENT)
