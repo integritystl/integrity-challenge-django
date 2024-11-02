@@ -98,3 +98,26 @@ class BlogTests(TestCase):
         )
         self.assertEqual(self.post.comments.count(), 1)  # Comment count unchanged
 
+    def test_delete_comment_authorized(self):
+        """
+        Test deleting a comment as the comment author
+        """
+        self.client.login(username=USERNAME, password=PASSWORD)
+        self.client.post(
+            reverse('blog:delete_comment', kwargs={'comment_id': self.comment.id})
+        )
+        self.assertEqual(self.post.comments.count(), 0)
+
+    def test_delete_comment_unauthorized(self):
+        """Test deleting a comment as another user"""
+        # Create another user
+        other_username, other_password = 'other', 'other123'
+        User.objects.create_user(
+            username=other_username,
+            password=other_password
+        )
+        self.client.login(username=other_username, password=other_password)
+        response = self.client.post(
+            reverse('blog:delete_comment', kwargs={'comment_id': self.comment.id})
+        )
+        self.assertEqual(self.post.comments.count(), 1)
