@@ -3,13 +3,11 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from ..models import Post
-from ..forms import PostForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 
 if TYPE_CHECKING:
     from django.http.response import HttpResponse, HttpResponseRedirect
