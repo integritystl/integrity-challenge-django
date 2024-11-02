@@ -16,6 +16,7 @@ COMMENT_CONTENT = 'Test comment'
 # USER DATA
 USERNAME = 'testuser'
 PASSWORD = 'testpass123'
+USER_DATA = {'username': USERNAME, 'password': PASSWORD}
 
 # ADMIN USER DATA
 ADMIN_USERNAME = 'admin'
@@ -31,10 +32,7 @@ class BlogTests(TestCase):
     """
     def setUp(self):
         # CREATE USERS
-        self.user = User.objects.create_user(
-            username=USERNAME,
-            password=PASSWORD
-        )
+        self.user = User.objects.create_user(**USER_DATA)
         self.admin_user = User.objects.create_superuser(
             username=ADMIN_USERNAME,
             password=ADMIN_PASSWORD,
@@ -81,7 +79,7 @@ class BlogTests(TestCase):
         """
         Test adding a comment as an authenticated user
         """
-        self.client.login(username=USERNAME, password=PASSWORD)
+        self.client.login(**USER_DATA)
         self.client.post(
             reverse('blog:add_comment', kwargs={'post_id': self.post.id}),
             {'content': 'New test comment'}
@@ -102,7 +100,7 @@ class BlogTests(TestCase):
         """
         Test deleting a comment as the comment author
         """
-        self.client.login(username=USERNAME, password=PASSWORD)
+        self.client.login(**USER_DATA)
         self.client.post(
             reverse('blog:delete_comment', kwargs={'comment_id': self.comment.id})
         )
@@ -135,3 +133,15 @@ class BlogTests(TestCase):
         comments = self.post.comments.all()
         self.assertEqual(comments[0].content, new_comment)  # Newest first
         self.assertEqual(comments[1].content, COMMENT_CONTENT)
+
+    def test_post_delete(self):
+        """
+        Test deleting a post
+        """
+        self.client.login(**USER_DATA)
+        response = self.client.post(
+            reverse('blog:post_delete', kwargs={'slug': self.post.slug})
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Post.objects.count(), 0)
+        self.assertEqual(Comment.objects.count(), 0)
