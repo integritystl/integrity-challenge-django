@@ -1,9 +1,41 @@
 # blog_project/blog/models/Post.py
-
+from typing import List, Tuple
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from . import AbstractPost
+
+
+class Status:
+    """
+    Class for holding string vars used in describing post current status
+    """
+    draft = 'draft'
+    Draft = 'Draft'
+    published = 'published'
+    Published = 'Published'
+
+    @classmethod
+    def choices(cls) -> List[Tuple[str, str]]:
+        """
+        Gets the database and prety value of the different status choices
+
+        Returns
+        -------
+        List[Tuple[str, str]]
+        """
+        return [(cls.draft, cls.Draft), (cls.published, cls.Published)]
+
+    @classmethod
+    def default(cls) -> str:
+        """
+        Gets the default status
+
+        Returns
+        -------
+        str
+        """
+        return cls.draft
 
 
 class Post(AbstractPost):
@@ -36,10 +68,7 @@ class Post(AbstractPost):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='posts/%Y/%m/%d/', blank=True)
-    status = models.CharField(max_length=10, choices=[
-        ('draft', 'Draft'),
-        ('published', 'Published')
-    ], default='draft')
+    status = models.CharField(max_length=10, choices=Status.choices(), default=Status.default())
 
     def __str__(self) -> str:
         """
