@@ -27,8 +27,9 @@ We will do a group review once complete.
     DEBUG=True
     ALLOWED_HOSTS=localhost,127.0.0.1
     ```
-
-5. Run migrations:
+5. Install dependencies:
+    - ```pip install -r requirements.txt```
+6. Run migrations:
     - ```cd blog_project```
     - ```python manage.py makemigrations```
     - ```python manage.py migrate```
