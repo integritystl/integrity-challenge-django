@@ -27,8 +27,10 @@ We will do a group review once complete.
     DEBUG=True
     ALLOWED_HOSTS=localhost,127.0.0.1
     ```
-
-5. Run migrations:
+> For internal users, check our password manager for the Encrypto Key labeled "Encrypto for Shell/Citgo" to decrypt the `.env.crypto` file.`
+5. Install dependencies:
+    - ```pip install -r requirements.txt```
+6. Run migrations:
     - ```cd blog_project```
     - ```python manage.py makemigrations```
     - ```python manage.py migrate```
